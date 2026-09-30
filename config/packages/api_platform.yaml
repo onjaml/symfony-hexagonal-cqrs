@@ -1,0 +1,21 @@
+api_platform:
+    title: Product API
+    description: CRUD Product — architecture hexagonale et CQRS
+    version: 1.0.0
+    mapping:
+        paths:
+            - '%kernel.project_dir%/src/Catalog/Infrastructure/ApiPlatform/Resource'
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    defaults:
+        stateless: true
+        pagination_client_items_per_page: true
+        pagination_maximum_items_per_page: 100
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+    exception_to_status:
+        App\Shared\Domain\Exception\NotFoundException: 404
+        App\Shared\Domain\Exception\DomainException: 422

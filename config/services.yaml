@@ -1,0 +1,41 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    _instanceof:
+        App\Shared\Application\Command\CommandHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: command.bus }
+        App\Shared\Application\Query\QueryHandlerInterface:
+            tags:
+                - { name: messenger.message_handler, bus: query.bus }
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Kernel.php'
+            - '../src/*/Domain/Model/'
+            - '../src/*/Domain/ValueObject/'
+            - '../src/*/Domain/Exception/'
+            - '../src/Shared/Domain/'
+            - '../src/*/Application/Command/*/*Command.php'
+            - '../src/*/Application/Query/*/*Query.php'
+            - '../src/*/Infrastructure/ApiPlatform/Resource/'
+            - '../src/*/Infrastructure/Doctrine/Type/'
+
+    App\Catalog\Domain\Repository\ProductRepositoryInterface:
+        alias: App\Catalog\Infrastructure\Doctrine\DoctrineProductRepository
+
+when@dev: &fixtures
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        App\Fixtures\:
+            resource: '../fixtures/'
+
+when@test: *fixtures

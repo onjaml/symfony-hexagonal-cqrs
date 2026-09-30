@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="App\Catalog\Domain\Model\Product" table="product">
+        <id name="id" type="product_id" column="id"/>
+        <embedded name="name" class="App\Catalog\Domain\ValueObject\ProductName" use-column-prefix="false"/>
+        <field name="description" type="text" nullable="true"/>
+        <embedded name="price" class="App\Catalog\Domain\ValueObject\Money" column-prefix="price_"/>
+        <field name="createdAt" type="datetime_immutable" column="created_at"/>
+        <field name="updatedAt" type="datetime_immutable" column="updated_at"/>
+    </entity>
+</doctrine-mapping>
